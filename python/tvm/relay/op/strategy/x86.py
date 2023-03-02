@@ -38,7 +38,7 @@ _OIHWio_matcher = re.compile("^OIHW[0-9]+i[0-9]+o$")
 def schedule_injective_cpu(attrs, outs, target):
     """schedule injective ops for x86"""
     with target:
-        return topi.x86.schedule_injective(outs)
+        return topi.generic.schedule_injective(outs)
 
 
 @schedule_reduce.register("cpu")
@@ -541,7 +541,7 @@ def dense_strategy_cpu(attrs, inputs, out_type, target):
 
     strategy.add_implementation(
         wrap_compute_dense(topi.x86.dense_pack),
-        wrap_topi_schedule(topi.x86.schedule_dense_pack),
+        wrap_topi_schedule(topi.generic.schedule_dense),
         name="dense_pack.x86",
         plevel=10,
     )
